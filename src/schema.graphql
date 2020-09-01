@@ -15,18 +15,18 @@ type Query {
 
 type Administrador {
     id: ID!
-    name: String!
-    lastname: String!
-    dni: Int!
-    email: String!
-    celular: String!
-    gender: String!
-    foto: String!
-    fecha_nacimiento: String!
-    calle: String!
-    ciudad: String!
-    provincia: String!
-    distrito: String!
+    name: String
+    lastname: String
+    dni: Int
+    email: String
+    celular: String
+    gender: String
+    foto: String
+    fecha_nacimiento: String
+    calle: String
+    ciudad: String
+    provincia: String
+    distrito: String
 }
 
 type Alumno {
@@ -205,27 +205,27 @@ enum MutationType {#Opciones únicas disponibles
 }
 
 type AuthAdministradorPayload {
-    user: Administrador!
+    administrador: Administrador!
     token: String!
 }
 
 type AuthAlumnoPayload {
-    user: Alumno!
+    alumno: Alumno!
     token: String!
 }
 
 type AuthApoderadoPayload {
-    user: Apoderado!
+    apoderado: Apoderado!
     token: String!
 }
 
 type AuthProfesorPayload {
-    user: Profesor!
+    profesor: Profesor!
     token: String!
 }
 
 type AuthTutorPayload {
-    user: Tutor!
+    tutor: Tutor!
     token: String!
 }
 
@@ -248,6 +248,10 @@ input loginInput {
 }
 
 input updateUserInput {
+    calle: String
+    ciudad: String
+    provincia: String
+    distrito: String
     email: String
     password: String
 }
