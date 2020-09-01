@@ -1,0 +1,317 @@
+#TODO: Resolvers
+type Query {
+    hello(name: String): String!
+    quantity: Int!
+    administrador(id: ID): [Administrador!]!
+    alumno(id: ID): [Alumno!]!
+    apoderado(id: ID): [Apoderado!]!
+    colegio(id: ID): [Colegio!]!
+    curso(id: ID): [Curso!]!
+    matricula(id: ID): [Matricula!]!
+    profesor(id: ID): [Profesor!]!
+    reforzamiento(id: ID): [Reforzamiento!]!
+    tutor(id: ID): [Tutor!]!
+}
+
+type Administrador {
+    id: ID!
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    foto: String!
+    fecha_nacimiento: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+}
+
+type Alumno {
+    id: ID!
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    foto: String!
+    fecha_nacimiento: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    grado: Int!
+    studies_in: Colegio!
+    parent: Apoderado!
+    tutored_by: Tutor!
+    matricula: [Matricula!]!
+}
+
+type Apoderado {
+    id: ID!
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    foto: String!
+    fecha_nacimiento: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    alumno: [Alumno!]!
+}
+
+type Colegio {
+    id: ID!
+    nombre: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    codigo_ugel: String!
+    alumno: [Alumno!]!
+}
+
+type Curso {
+    id: ID!
+    nombre: String!
+    descripcion: String!
+    horas_totales: Int!
+    grado: Int!
+    contenido: String!
+    teached_by: [Profesor!]!
+    matricula: [Matricula!]!
+}
+
+type Matricula {
+    id: ID!
+    signed: Alumno!
+    signed_in: Curso!
+    progreso: Int!
+    notas: [Int!]!    
+}
+
+type Profesor {
+    id: ID!
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    foto: String!
+    fecha_nacimiento: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    cv: String!
+    isaccepted: Boolean!
+    curso: [Curso!]!
+}
+
+type Reforzamiento {
+    id: ID!
+    categoria: String!
+    descripcion: String!
+    contenido: String!
+    teached_in: Curso!
+}
+
+type Tutor {
+    id: ID!
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    foto: String!
+    fecha_nacimiento: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    cv: String!
+    isaccepted: Boolean!
+    alumno: [Alumno!]!
+}
+
+#TODO: Mutations
+type Mutation {
+    signUpAdministrador(data: signUpInput!): AuthAdministradorPayload!
+    loginAdministrador(data: loginInput!): AuthAdministradorPayload!
+    signUpAlumno(data: signUpInput!): AuthAlumnoPayload!
+    loginAlumno(data: loginInput!): AuthAlumnoPayload!
+    signUpApoderado(data: signUpInput!): AuthApoderadoPayload!
+    loginApoderado(data: loginInput!): AuthApoderadoPayload!
+    signUpProfesor(data: signUpInput!): AuthProfesorPayload!
+    loginProfesor(data: loginInput!): AuthProfesorPayload!
+    signUpTutor(data: signUpInput!): AuthTutorPayload!
+    loginTutor(data: loginInput!): AuthTutorPayload!
+    updateAdministrador(
+        id: ID!
+        data: updateUserInput
+    ): Administrador!
+    updateAlumno(
+        id: ID!
+        data: updateUserInput
+    ): Alumno!
+    updateApoderado(
+        id: ID!
+        data: updateUserInput
+    ): Apoderado!
+    updateProfesor(
+        id: ID!
+        data: updateUserInput
+    ): Profesor!
+    updateTutor(
+        id: ID!
+        data: updateUserInput
+    ): Tutor!
+    createColegio(data: createColegioInput):Colegio!
+    updateColegio(
+        id: ID!
+        data: updateColegioInput
+    ):Colegio!
+    createCurso(data: createCursoInput):Curso!
+    updateCurso(
+        id: ID!
+        data: updateCursoInput
+    ):Curso!
+    createMatricula(data: createMatriculaInput):Curso!
+    updateMatricula(
+        id: ID!
+        data: updateMatriculaInput
+    ):Matricula!
+    updateReforzamiento(
+        id: ID!
+        data: updateReforzamientoInput
+    ):Reforzamiento!
+    createReforzamiento(data: createReforzamientoInput):Reforzamiento!
+    deleteReforzamiento(id: ID!): Reforzamiento!
+}
+
+enum MutationType {#Opciones únicas disponibles
+    CREATED
+    UPDATED
+    DELETED
+}
+
+type AuthAdministradorPayload {
+    user: Administrador!
+    token: String!
+}
+
+type AuthAlumnoPayload {
+    user: Alumno!
+    token: String!
+}
+
+type AuthApoderadoPayload {
+    user: Apoderado!
+    token: String!
+}
+
+type AuthProfesorPayload {
+    user: Profesor!
+    token: String!
+}
+
+type AuthTutorPayload {
+    user: Tutor!
+    token: String!
+}
+
+#TODO: Input data
+
+input signUpInput {
+    name: String!
+    lastname: String!
+    dni: Int!
+    email: String!
+    celular: String!
+    gender: String!
+    fecha_nacimiento: String!
+    password: String!
+}
+
+input loginInput {
+    email: String!
+    password: String!
+}
+
+input updateUserInput {
+    email: String
+    password: String
+}
+
+input createColegioInput {
+    nombre: String!
+    calle: String!
+    ciudad: String!
+    provincia: String!
+    distrito: String!
+    codigo_ugel: String!
+}
+
+input updateColegioInput {
+    nombre: String
+    calle: String
+    ciudad: String
+    provincia: String
+    distrito: String
+    codigo_ugel: String
+}
+
+input createCursoInput {
+    nombre: String!
+    descripcion: String!
+    horas_totales: Int!
+    grado: Int!
+    contenido: String
+    teached_by: ID!
+}
+
+input updateCursoInput {
+    nombre: String
+    descripcion: String
+    horas_totales: Int
+    grado: Int
+    contenido: String
+    teached_by: ID
+}
+
+input createMatriculaInput {
+    signed: ID!
+    signed_in: ID!
+    progreso: Int
+    notas: [Int]
+}
+
+input updateMatriculaInput {
+    signed: ID
+    signed_in: ID
+    progreso: Int
+    notas: [Int]
+}
+
+input createReforzamientoInput {
+    categoria: String!
+    descripcion: String!
+    contenido: String
+    teached_in: ID!
+}
+
+input updateReforzamientoInput {
+    categoria: String
+    descripcion: String
+    contenido: String
+    teached_in: ID
+}

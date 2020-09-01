@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model administrador {
+  id               Int     @default(autoincrement()) @id
+  name             String
+  lastname         String
+  dni              Int    @unique
+  email            String  @unique
+  celular          String
+  gender           String
+  foto             String
+  fecha_nacimiento String
+  calle            String
+  ciudad           String
+  provincia        String
+  distrito         String
+  password         String
+}
+
+model alumno {
+  id               Int         @default(autoincrement()) @id
+  name             String
+  lastname         String
+  dni              Int        @unique
+  email            String     @unique
+  celular          String
+  gender           String
+  foto             String
+  fecha_nacimiento String
+  calle            String
+  ciudad           String
+  provincia        String
+  distrito         String
+  grado            Int
+  studies_in       Int
+  parent           Int
+  tutored_by       Int
+  password         String
+  apoderado        apoderado  @relation(fields: [parent], references: [id])
+  colegio          colegio    @relation(fields: [studies_in], references: [id])
+  tutor            tutor      @relation(fields: [tutored_by], references: [id])
+  matricula        matricula[]
+}
+
+model apoderado {
+  id               Int      @default(autoincrement()) @id
+  name             String
+  lastname         String
+  dni              Int     @unique
+  email            String  @unique
+  celular          String
+  gender           String
+  foto             String
+  fecha_nacimiento String
+  calle            String
+  ciudad           String
+  provincia        String
+  distrito         String
+  password         String
+  alumno           alumno[]
+}
+
+model colegio {
+  id          Int      @default(autoincrement()) @id
+  nombre      String
+  calle       String
+  ciudad      String
+  provincia   String
+  distrito    String
+  codigo_ugel String  @unique
+  alumno      alumno[]
+}
+
+model curso {
+  id            Int             @default(autoincrement()) @id
+  nombre        String
+  descripcion   String
+  horas_totales Int
+  grado         Int
+  contenido     String
+  teached_by    Int
+  profesor      profesor       @relation(fields: [teached_by], references: [id])
+  matricula     matricula[]
+  reforzamiento reforzamiento[]
+}
+
+model matricula {
+  id        Int     @default(autoincrement()) @id
+  signed    Int
+  signed_in Int
+  progreso  Int
+  notas     Int[]
+  alumno    alumno @relation(fields: [signed], references: [id])
+  curso     curso  @relation(fields: [signed_in], references: [id])
+}
+
+model profesor {
+  id               Int      @default(autoincrement()) @id
+  name             String
+  lastname         String
+  dni              Int     @unique
+  email            String  @unique
+  celular          String
+  gender           String
+  foto             String
+  fecha_nacimiento String
+  calle            String
+  ciudad           String
+  provincia        String
+  distrito         String
+  cv               String
+  isaccepted       Boolean
+  password         String
+  curso            curso[]
+}
+
+model reforzamiento {
+  id          Int     @default(autoincrement()) @id
+  categoria   String
+  descripcion String
+  contenido   String
+  teached_in  Int
+  curso       curso  @relation(fields: [teached_in], references: [id])
+}
+
+model tutor {
+  id               Int      @default(autoincrement()) @id
+  name             String
+  lastname         String
+  dni              Int     @unique
+  email            String  @unique
+  celular          String
+  gender           String
+  foto             String
+  fecha_nacimiento String
+  calle            String
+  ciudad           String
+  provincia        String
+  distrito         String
+  cv               String
+  isaccepted       Boolean
+  password         String
+  alumno           alumno[]
+}
